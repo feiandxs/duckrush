@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+// create table if not exists user
+// (
+//     id                     int auto_increment
+//         primary key,
+//     email                  varchar(32)                       not null,
+//     nickname               varchar(32)                       not null,
+//     avatar                 varchar(50)                       null,
+//     role                   varchar(8) default 'user'         not null,
+//     status                 varchar(8) default 'inactive'     not null,
+//     email_verified         varchar(3) default 'no'           not null,
+//     last_email_verify_time datetime                          null,
+//     vip_level              varchar(6) default 'normal'       not null,
+//     last_login_at          datetime                          null,
+//     created_at             datetime   default 'CURRENT_DATE' not null,
+//     updated_at             datetime                          null,
+//     deleted_at             datetime                          null,
+//     password_hash          varchar(200)                      not null,
+//     constraint users_email_uindex
+//         unique (email),
+//     constraint users_id_uindex
+//         unique (id),
+//     constraint users_nickname_uindex
+//         unique (nickname)
+// );
+
+
+model User {
+  id                     Int       @id @default(autoincrement())
+  email                  String    @unique
+  nickname               String    @unique
+  avatar                 String?
+  role                   String    @default("user")
+  status                 String    @default("inactive")
+  email_verified         String    @default("no") @map("email_verified")
+  last_email_verify_time DateTime? @map("last_email_verify_time")
+  vip_level              String    @default("normal")
+  last_login_at          DateTime? @map("last_login_at")
+  created_at             DateTime  @default(now()) @map("created_at")
+  updated_at             DateTime? @map("updated_at")
+  deleted_at             DateTime? @map("deleted_at")
+  password_hash          String
+
+  @@map("user")
+}
+
+
+// create table if not exists project
+// (
+//     id               int auto_increment
+//         primary key,
+//     owner_id         int                                not null,
+//     project_color_id int      default 1                 not null,
+//     display_style    int      default 1                 null comment '1 list
+// 2 board',
+//     icon             varchar(32)                        null comment '显示的项目图标',
+//     is_inbox         int      default 0                 not null comment '0 不是
+// 1 是',
+//     updated_at       datetime                           null,
+//     deleted_at       datetime                           null,
+//     created_at       datetime default CURRENT_TIMESTAMP not null,
+//     project_name     varchar(50)                        not null comment '项目名称',
+//     is_shared        int      default 0                 not null comment '0 默认不分享
+// 1 分享
+// ',
+//     is_archive       int      default 0                 null comment '0 默认没归档
+// 1 归档',
+//     item_count       int      default 0                 not null comment '该工程下的所有做过的todo的总数',
+//     is_delete        int      default 0                 null comment '0 没有删
+// 1 删',
+//     constraint project_id_uindex
+//         unique (id)
+// );
+
+// create index project_owner_id_index
+//     on project (owner_id);
+
+
+model Project {
+  id               Int       @id @default(autoincrement())
+  owner_id         Int
+  project_color_id Int       @default(1)
+  display_style    Int?      @default(1)
+  icon             String?
+  is_inbox         Int       @default(0)
+  updated_at       DateTime?
+  deleted_at       DateTime?
+  created_at       DateTime  @default(now())
+  project_name     String
+  is_shared        Int       @default(0)
+  is_archive       Int?      @default(0)
+  item_count       Int       @default(0)
+  is_delete        Int?      @default(0)
+
+  @@map("project")
+}
+
+// create table if not exists todo
+// (
+//     id          int auto_increment
+//         primary key,
+//     project_id  int                                not null,
+//     pid         int                                null comment '父级id',
+//     description varchar(800)                       null,
+//     due_date    datetime                           null,
+//     priority    int      default 4                 not null comment '4 3 2 1 默认4是普通，等级最高为1',
+//     created_at  datetime default CURRENT_TIMESTAMP not null,
+//     updated_at  datetime                           null,
+//     is_repeat   int      default 0                 not null comment '是否是重复任务，默认否',
+//     repeat_type varchar(10)                        null comment 'cron形式的重复',
+//     is_section  int      default 0                 null comment '是否是section 默认不是',
+//     name        varchar(200)                       not null,
+//     constraint todo_id_uindex
+//         unique (id)
+// );
+
+model Todo {
+  id          Int       @id @default(autoincrement())
+  project_id  Int
+  pid         Int?
+  description String?
+  due_date    DateTime?
+  priority    Int       @default(4)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  is_repeat   Int       @default(0)
+  repeat_type String?
+  is_section  Int?      @default(0)
+  name        String
+
+  @@map("todo")
+}
