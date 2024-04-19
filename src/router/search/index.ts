@@ -5,6 +5,8 @@ import type { Response } from '@/schema/response.schema';
 import type { SearchRequestType, SearchResponse } from '@/schema/search.schema';
 import { ZodIssue } from 'zod';
 
+import { searchHandler } from '@/handler/search-request';
+
 const searchRouter = new Hono();
 
 searchRouter.post('/', async (c) => {
@@ -18,6 +20,7 @@ searchRouter.post('/', async (c) => {
       data: parsed.error.errors,
     } as Response<ZodIssue[]>);
   }
+  await searchHandler(parsed.data as SearchRequestType);
   return c.json({} as Response<SearchResponse>);
 });
 
