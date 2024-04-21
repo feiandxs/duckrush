@@ -1,15 +1,12 @@
-import { Hono } from 'hono'
+import { Hono } from 'hono';
 
-import { pingRouter } from "@/router/ping";
-import { searchRouter } from "@/router/search";
+import { pingRouter } from '@/router/ping';
+import { searchRouter } from '@/router/search';
 
+const app = new Hono();
 
-const app = new Hono()
+app.get('/', (c) => c.text('Hello, Gia!'));
+app.route('/ping', pingRouter);
+app.route('/search', searchRouter);
 
-app.get('/', (c) => {
-  return c.text('Hello, Gia!')
-})
-app.route('/ping', pingRouter)
-app.route('/search', searchRouter)
-
-export default app
+export default app;

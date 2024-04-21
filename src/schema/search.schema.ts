@@ -60,8 +60,6 @@ export interface SearchResult {
 }
 
 export interface SearchResponse {
-  // The number of results returned
-  count: number
 
   // The search results
   results: SearchResult[]

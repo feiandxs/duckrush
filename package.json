@@ -4,7 +4,7 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
-    "duckduckgogogo": "^1.0.1",
+    "duckduckgogogo": "^1.1.0",
     "hono": "^4.2.5",
     "zod": "^3.22.5"
   },
