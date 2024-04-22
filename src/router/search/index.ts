@@ -19,33 +19,40 @@ searchRouter.post('/', async (c) => {
       data: parsed.error.errors,
     } as Response<ZodIssue[]>);
   }
-  const searchResults = await searchHandler(parsed.data as SearchRequestType);
-  if (!searchResults) {
+  try {
+    const searchResults = await searchHandler(parsed.data as SearchRequestType);
+    if (!searchResults) {
+      return c.json({
+        code: 500,
+        message: 'Internal Server Error',
+      } as Response<null>);
+    }
+    const results: SearchResult[] = [];
+
+    searchResults.results.forEach((result, index) => {
+      results.push({
+        title: result.title,
+        url: result.url,
+        description: result.description,
+        searchEngine: 'DuckDuckGo',
+        rank: index + 1,
+        timestamp: Date.now(),
+      });
+    });
+
+    return c.json({
+      code: 0,
+      message: 'OK',
+      data: {
+        results,
+      } as SearchResponse,
+    } as Response<SearchResponse>);
+  } catch (err: any) {
     return c.json({
       code: 500,
-      message: 'Internal Server Error',
+      message: `Internal Server Error：${err.message}`,
     } as Response<null>);
   }
-  const results: SearchResult[] = [];
-
-  searchResults.results.forEach((result, index) => {
-    results.push({
-      title: result.title,
-      url: result.url,
-      description: result.description,
-      searchEngine: 'DuckDuckGo',
-      rank: index + 1,
-      timestamp: Date.now(),
-    });
-  });
-
-  return c.json({
-    code: 0,
-    message: 'OK',
-    data: {
-      results,
-    } as SearchResponse,
-  } as Response<SearchResponse>);
 });
 
 export { searchRouter };
