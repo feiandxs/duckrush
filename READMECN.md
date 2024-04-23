@@ -31,6 +31,23 @@ POST
 json
 ```
 
+## 校验 Authentication
+
+默认情况下没有启用任何校验措施，直接请求即可。
+如果需要启用校验机制，修改项目根目录下的 `wrangler.toml`，将其中的
+
+```text
+# token = "duckrush"
+```
+
+的注释取消，修改为
+
+```text
+token = "duckrush"
+```
+
+其中 `duckrush` 为你自定义的校验token，然后前端使用 `Bearer` 方式提交。
+
 ## 请求参数
 
 | 字段 | 类型 | 是否必填 | 描述 |
@@ -102,3 +119,7 @@ npm run deploy
 便可部署。
 
 中国和部分地区访问需要绑定自定义域名。
+
+## Todo
+
+使用 cloudflare 的 无头浏览器将 url 提取出内容并转换成 markdown，但目前我还在 waitlist 里面，暂时搞不了，会先出一个独立部署版本

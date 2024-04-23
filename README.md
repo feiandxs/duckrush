@@ -31,6 +31,25 @@ POST
 json
 ```
 
+Here is the translation of the given text into English:
+
+## Authentication Verification
+
+By default, no authentication measures are enabled, and direct requests can be made.
+If you need to enable the authentication mechanism, modify the `wrangler.toml` file in the root directory of the project by uncommenting the line
+
+```text
+# token = "duckrush"
+```
+
+and changing it to
+
+```text
+token = "duckrush"
+```
+
+where `duckrush` is the authentication token that you have customized. Then, the front end should submit it using the `Bearer` method.
+
 ## Request Parameters
 
 | Field | Type   | Required | Description                         |
@@ -94,3 +113,7 @@ json
 ```
 
 Instructions for using Wrangler and Cloudflare Workers to deploy this project are not covered here. If you have already installed Wrangler, you can deploy directly using `npm run deploy`. Access from China and some regions may require binding a custom domain name.
+
+## Todo
+
+Using Cloudflare's headless browser to extract content from URLs and convert it into Markdown is not currently possible for me as I am still on the waitlist. However, I will first release a version for independent deployment.
