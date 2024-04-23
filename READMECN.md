@@ -1,6 +1,6 @@
 # DuckRush
 
-![duckrush](/assets/logo.jpg){:height="500px" width="500px"}
+![duckrush](/assets/logo.jpg)
 
 一个简单快速的后端API，基于 Hono，可以通过关键词在互联网上搜索到相关的内容并转换成适合 LLM 处理的格式。
 
