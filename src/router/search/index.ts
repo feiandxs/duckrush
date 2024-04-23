@@ -7,9 +7,31 @@ import { ZodIssue } from 'zod';
 
 import { searchHandler } from '@/handler/search-request';
 
+// env get
+import { env } from 'hono/adapter';
+
 const searchRouter = new Hono();
 
 searchRouter.post('/', async (c) => {
+  // auth
+  const { token } = env<{ token: string }>(c);
+  const Authorization = c.req.header('Authorization');
+  if (token) {
+    if (!Authorization) {
+      return c.json({
+        code: 401,
+        message: 'Unauthorized',
+      } as Response<null>);
+    }
+
+    if (Authorization !== `Bearer ${token}`) {
+      return c.json({
+        code: 401,
+        message: 'Unauthorized',
+      } as Response<null>);
+    }
+  }
+
   const body = await c.req.json();
   const parsed = SearchRequestSchema.safeParse(body);
   if (!parsed.success) {

@@ -1,12 +1,13 @@
 name = "duckrush"
 compatibility_date = "2023-12-01"
 
-# [vars]
+[vars]
 # MY_VAR = "my-variable"
-
+# token = "duckrush"
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 
 # [[r2_buckets]]
 # binding = "MY_BUCKET"
